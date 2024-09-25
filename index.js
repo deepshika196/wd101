@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const minYear = 1969;
         const maxYear = 2006;
     
-        if (yearOfBirth < minYear || yearOfBirth > maxYear) {
+        if (yearOfBirth > minYear || yearOfBirth < maxYear) {
             dobInput.setCustomValidity(`Year of birth must be between ${minYear} and ${maxYear}.`);
             dobInput.reportValidity();
             return false;
