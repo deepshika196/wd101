@@ -63,7 +63,6 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     
     
-    let userEntries = retrieveEntries();
     const displayEntries = () => {
         const entries = retrieveEntries();
         const tableTitle = `<h2 class="text-2xl font-bold text-center mb-4">User-Entries</h2>`;
@@ -93,6 +92,13 @@ document.addEventListener('DOMContentLoaded', () => {
         let details = document.getElementById("user-entries");
         details.innerHTML = tableTitle + table;
     };
+    
+
+    document.addEventListener('DOMContentLoaded', () => {
+
+    
+        displayEntries(); 
+    });
     
 
     const saveUserForm = (event) => {
