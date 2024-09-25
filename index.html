@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Registration Form</title>
+    <style>
+        input:invalid:focus {
+            border: 1px solid red;
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <div class="flex items-center justify-center min-h-screen">
+        <div class="bg-white shadow-md rounded px-8 py-6 max-w-2xl">
+  
+            <h1 class="text-3xl font-bold text-center mb-4">Registration Form</h1>
+            <form id="registrationForm">
+                <div class="mb-4">
+                    <label for="name" class="block text-gray-700 font-bold mb-2">Name</label>
+                    <input required type="text" id="name" name="name" class="border border-gray-300 rounded-md px-3 py-2 w-full focus:outline-none focus:ring-2">
+                </div>
+                <div class="mb-4">
+                    <label for="email" class="block text-gray-700 font-bold mb-2">Email</label>
+                    <input required type="email" id="email" name="email" class="border border-gray-300 rounded-md px-3 py-2 w-full focus:outline-none focus:ring-2">
+                </div>
+                <div class="mb-4">
+                    <label for="password" class="block text-gray-700 font-bold mb-2">Password</label>
+                    <input required type="password" id="password" name="password" class="border border-gray-300 rounded-md px-3 py-2 w-full focus:outline-none focus:ring-2">
+                </div>
+                <div class="mb-4">
+                    <label for="dob" class="block text-gray-700 font-bold mb-2">Date of Birth</label>
+                    <input required type="date" id="dob" name="dob" class="border border-gray-300 rounded-md px-3 py-2 w-full focus:outline-none focus:ring-2">
+                </div>
+                <div class="mb-4">
+                    <input required type="checkbox" id="acceptTerms" name="acceptTerms" class="mr-2">
+                    <label  for="acceptTerms" class="text-gray-700">Accept Terms & Conditions</label>
+                </div>
+                <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full">Submit</button>
+            </form>
+           
+            <div id="user-entries" class="mt-8 bg-gray-50 p-4 rounded shadow-md"></div>
+        </div>
+    </div>
+    <script src="index.js"></script>
+</body>
+</html>
