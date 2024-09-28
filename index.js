@@ -1,6 +1,9 @@
 document.addEventListener('DOMContentLoaded', () => {
     const email = document.getElementById('email');
+    const dob = document.getElementById('dob');
+
     email.addEventListener('input', () => validateEmail(email));
+    dob.addEventListener('input', () => validateDateOfBirth());
 
     const submit = document.getElementById('registrationForm');
     submit.addEventListener('submit', (e) => {
@@ -25,30 +28,39 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-function validateDateOfBirth() {
-    const dobValue = document.getElementById('dob').value;
+    function validateDateOfBirth() {
+        const dobValue = document.getElementById('dob').value;
 
-    if (!dobValue) {
-        document.getElementById('dob').setCustomValidity("Please select a valid date");
-        document.getElementById('dob').reportValidity();
-        return false;
+        if (!dobValue) {
+            document.getElementById('dob').setCustomValidity("Please select a valid date");
+            document.getElementById('dob').reportValidity();
+            return false;
+        }
+
+        const dobParts = dobValue.split('-');
+        const year = parseInt(dobParts[0], 10);
+        const month = parseInt(dobParts[1], 10);
+        const day = parseInt(dobParts[2], 10);
+
+        const dob = new Date(year, month - 1, day);
+        const today = new Date();
+
+        let age = today.getFullYear() - dob.getFullYear();
+        const monthDifference = today.getMonth() - dob.getMonth();
+
+        if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < dob.getDate())) {
+            age--;
+        }
+
+        if (age < 18 || age > 55) {
+            document.getElementById('dob').setCustomValidity("Invalid Date. You must be between 18 and 55 years old.");
+            document.getElementById('dob').reportValidity();
+            return false;
+        }
+
+        document.getElementById('dob').setCustomValidity("");
+        return true;
     }
-
-    const dobParts = dobValue.split('-');
-    const year = parseInt(dobParts[0], 10);
-    const month = parseInt(dobParts[1], 10);
-    const day = parseInt(dobParts[2], 10);
-
-    if (isNaN(year) || isNaN(month) || isNaN(day) || year < 1968 || year > 2007) {
-        document.getElementById('dob').setCustomValidity("Invalid Date. Please enter a valid date between 1968-01-01 and 2007-12-31");
-        document.getElementById('dob').reportValidity();
-        return false;
-    }
-
-    document.getElementById('dob').setCustomValidity("");
-    return true;
-}
-
 
     const retrieveEntries = () => {
         let entries = localStorage.getItem("user-entries");
@@ -99,10 +111,8 @@ function validateDateOfBirth() {
         const dob = document.getElementById("dob").value;
         const acceptedTermsAndconditions = document.getElementById("acceptTerms").checked;
 
-     
         const userEntries = retrieveEntries();
 
-     
         const entry = {
             name,
             email,
@@ -111,15 +121,11 @@ function validateDateOfBirth() {
             acceptedTermsAndconditions
         };
 
-   
         userEntries.push(entry);
-
         localStorage.setItem("user-entries", JSON.stringify(userEntries));
 
-       
         displayEntries();
     };
 
-  
     displayEntries();
 });
