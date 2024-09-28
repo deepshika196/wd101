@@ -25,29 +25,30 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    function validateDateOfBirth() {
-        const dobValue = document.getElementById('dob').value;
+function validateDateOfBirth() {
+    const dobValue = document.getElementById('dob').value;
 
-        if (!dobValue) {
-            document.getElementById('dob').setCustomValidity("Please select a valid date");
-            document.getElementById('dob').reportValidity();
-            return false;
-        }
-
-        const dobParts = dobValue.split('-');
-        const year = parseInt(dobParts[0], 10);
-        const month = parseInt(dobParts[1], 10);
-        const day = parseInt(dobParts[2], 10);
-
-        if (isNaN(year) || isNaN(month) || isNaN(day) || year < 1986 || year > 2005) {
-            document.getElementById('dob').setCustomValidity("Invalid Date. Please enter a valid date between 1986-01-01 and 2005-12-31");
-            document.getElementById('dob').reportValidity();
-            return false;
-        }
-
-        document.getElementById('dob').setCustomValidity("");
-        return true;
+    if (!dobValue) {
+        document.getElementById('dob').setCustomValidity("Please select a valid date");
+        document.getElementById('dob').reportValidity();
+        return false;
     }
+
+    const dobParts = dobValue.split('-');
+    const year = parseInt(dobParts[0], 10);
+    const month = parseInt(dobParts[1], 10);
+    const day = parseInt(dobParts[2], 10);
+
+    if (isNaN(year) || isNaN(month) || isNaN(day) || year < 1968 || year > 2007) {
+        document.getElementById('dob').setCustomValidity("Invalid Date. Please enter a valid date between 1968-01-01 and 2007-12-31");
+        document.getElementById('dob').reportValidity();
+        return false;
+    }
+
+    document.getElementById('dob').setCustomValidity("");
+    return true;
+}
+
 
     const retrieveEntries = () => {
         let entries = localStorage.getItem("user-entries");
