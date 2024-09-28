@@ -4,16 +4,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const submit = document.getElementById('registrationForm');
     submit.addEventListener('submit', (e) => {
-        e.preventDefault(); 
+        e.preventDefault();
         const emailValid = validateEmail(email);
         const dobValid = validateDateOfBirth();
-        
+
         if (emailValid && dobValid) {
             saveUserForm(e);
         }
     });
 
-    
     function validateEmail(element) {
         const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
         if (!emailPattern.test(element.value)) {
@@ -25,7 +24,30 @@ document.addEventListener('DOMContentLoaded', () => {
             return true;
         }
     }
-  let userForm = document.getElementById("registrationForm");
+
+    function validateDateOfBirth() {
+        const dobValue = document.getElementById('dob').value;
+
+        if (!dobValue) {
+            document.getElementById('dob').setCustomValidity("Please select a valid date");
+            document.getElementById('dob').reportValidity();
+            return false;
+        }
+
+        const dobParts = dobValue.split('-');
+        const year = parseInt(dobParts[0], 10);
+        const month = parseInt(dobParts[1], 10);
+        const day = parseInt(dobParts[2], 10);
+
+        if (isNaN(year) || isNaN(month) || isNaN(day) || year < 1986 || year > 2005) {
+            document.getElementById('dob').setCustomValidity("Invalid Date. Please enter a valid date between 1986-01-01 and 2005-12-31");
+            document.getElementById('dob').reportValidity();
+            return false;
+        }
+
+        document.getElementById('dob').setCustomValidity("");
+        return true;
+    }
 
     const retrieveEntries = () => {
         let entries = localStorage.getItem("user-entries");
@@ -34,39 +56,13 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             entries = [];
         }
-        console.log('Retrieved Entries:', entries);
         return entries;
     };
-    const validateDateOfBirth = () => {
-        const dobInput = document.getElementById("dob");
-        const dobValue = dobInput.value;
-    
-        if (!dobValue) {
-            dobInput.setCustomValidity("Date of birth is required.");
-            dobInput.reportValidity();
-            return false;
-        }
-    
-        const yearOfBirth = new Date(dobValue).getFullYear(); // Extract the year from the date
-    
-        const minYear = 1969;
-        const maxYear = 2006;
-    
-        if (yearOfBirth > minYear || yearOfBirth < maxYear) {
-            dobInput.setCustomValidity(`Year of birth must be between ${minYear} and ${maxYear}.`);
-            dobInput.reportValidity();
-            return false;
-        } else {
-            dobInput.setCustomValidity('');
-            return true;
-        }
-    };
-    
-    
+
     const displayEntries = () => {
         const entries = retrieveEntries();
         const tableTitle = `<h2 class="text-2xl font-bold text-center mb-4">User-Entries</h2>`;
-        
+
         const table = `<table class="table-auto w-full border-collapse text-sm">
             <thead>
                 <tr class="bg-gray-200 text-xs">
@@ -88,28 +84,24 @@ document.addEventListener('DOMContentLoaded', () => {
                 }).join("\n") : "<tr><td colspan='5' class='text-center'>No entries yet!</td></tr>"}
             </tbody>
         </table>`;
-    
+
         let details = document.getElementById("user-entries");
         details.innerHTML = tableTitle + table;
     };
-    
-
-    document.addEventListener('DOMContentLoaded', () => {
-
-    
-        displayEntries(); 
-    });
-    
 
     const saveUserForm = (event) => {
         event.preventDefault();
-        
+
         const name = document.getElementById("name").value;
         const email = document.getElementById("email").value;
         const password = document.getElementById("password").value;
         const dob = document.getElementById("dob").value;
         const acceptedTermsAndconditions = document.getElementById("acceptTerms").checked;
 
+     
+        const userEntries = retrieveEntries();
+
+     
         const entry = {
             name,
             email,
@@ -118,13 +110,15 @@ document.addEventListener('DOMContentLoaded', () => {
             acceptedTermsAndconditions
         };
 
-        console.log('New Entry:', entry);
-
+   
         userEntries.push(entry);
+
         localStorage.setItem("user-entries", JSON.stringify(userEntries));
 
+       
         displayEntries();
     };
 
+  
     displayEntries();
 });
